@@ -1,0 +1,264 @@
+{
+	"info": {
+		"_postman_id": "e8351432-5b28-420c-9562-3ea497e4dfa8",
+		"name": "Lab 10 (Part 2)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32434321"
+	},
+	"item": [
+		{
+			"name": "Danh sách các giống mèo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"const responseJSON = pm.response.json();",
+							"",
+							"const length = responseJSON.length;",
+							"",
+							"for (var i = 0; i< 2; i++) {",
+							"    console.log(responseJSON[i]);",
+							"",
+							"   if (responseJSON[i].name != null) {",
+							"      console.log(responseJSON[i].name);",
+							"  } ",
+							"}",
+							"",
+							"  pm.test(\"TC Name must be American Bobtail\", function () {",
+							"",
+							"            pm.expect(responseJSON[i].name).to.eql(\"American Bobtail\");",
+							"   });",
+							"",
+							"",
+							"var jsonData = pm.response.json();",
+							"var dataName1 = \"American Bobtail\"; // Replace with the actual name",
+							"var dataName2 = \"Arabian Mau\"; // Replace with the actual name",
+							"",
+							"var dataID1 = pm.response.json().find(data => data.name === dataName1).id;",
+							"var dataID2 = pm.response.json().find(data => data.name === dataName2).id;",
+							"",
+							"pm.collectionVariables.set(\"American Bobtail_ID\", dataID1);",
+							"pm.collectionVariables.set(\"Arabian Mau_ID\", dataID2);",
+							"",
+							"console.log(pm.collectionVariables.get(\"American Bobtail_ID\"));",
+							"console.log(pm.collectionVariables.get(\"Arabian Mau_ID\"));",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseURL}}//v1/breeds",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"",
+						"v1",
+						"breeds"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API lấy random một bức ảnh mèo ngẫu nhiên",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Fixed response validation\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"const resultJson = pm.response.json();\r",
+							"const image_id = resultJson[0].id;\r",
+							"\r",
+							"pm.collectionVariables.set(\"ImageID\", image_id);\r",
+							"console.log(pm.collectionVariables.get(\"ImageID\"));\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseURL}}/v1/images/search?breed_ids={{American Bobtail_ID}}",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"v1",
+						"images",
+						"search"
+					],
+					"query": [
+						{
+							"key": "breed_ids",
+							"value": "{{American Bobtail_ID}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Tạo một user vote",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"let sub_id = \"abc\";\r",
+							"pm.collectionVariables.set(\"userID\", sub_id);\r",
+							"console.log(pm.collectionVariables.get(\"userID\"));"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{X-API-KEY}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"image_id\": \"8r4M61iyS\",\r\n\"value\": 0,\r\n\"sub_id\": \"abc\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/v1/votes",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"v1",
+						"votes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Lấy ra danh sách votes theo user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{X-API-KEY}}"
+					}
+				],
+				"url": {
+					"raw": "{{BaseURL}}/v1/votes?sub_id={{userID}}&order=ASC&limit=2",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"v1",
+						"votes"
+					],
+					"query": [
+						{
+							"key": "sub_id",
+							"value": "{{userID}}"
+						},
+						{
+							"key": "order",
+							"value": "ASC"
+						},
+						{
+							"key": "limit",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "American Bobtail_ID",
+			"value": ""
+		},
+		{
+			"key": "Arabian Mau_ID",
+			"value": ""
+		},
+		{
+			"key": "ImageID",
+			"value": ""
+		},
+		{
+			"key": "userID",
+			"value": ""
+		}
+	]
+}

@@ -1,0 +1,113 @@
+{
+	"info": {
+		"_postman_id": "0d3d9c37-1384-46f4-87ed-7ad3b0aed1e7",
+		"name": "Lab 6.2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32434321"
+	},
+	"item": [
+		{
+			"name": "Register a new API client",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"const accessToken = pm.response.json().accessToken;\r",
+							"pm.collectionVariables.set(\"Authorization\", accessToken);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"clientName\": \"{{$randomFullName}}\",\r\n    \"clientEmail\": \"{{$randomExampleEmail}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Base}}/api-clients",
+					"host": [
+						"{{Base}}"
+					],
+					"path": [
+						"api-clients"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a new order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Authorization}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \"toolId\": 4643,\r\n \"customerName\": \"John Doe\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Base}}/orders",
+					"host": [
+						"{{Base}}"
+					],
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "Base",
+			"value": "https://simple-tool-rental-api.glitch.me"
+		},
+		{
+			"key": "Authorization",
+			"value": ""
+		}
+	]
+}

@@ -1,0 +1,458 @@
+{
+	"info": {
+		"_postman_id": "e50c4863-0d32-40ce-862d-a9ab1bb488b2",
+		"name": "Lab 6.1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32434321"
+	},
+	"item": [
+		{
+			"name": "Status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status should be UP\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status).to.eql(\"UP\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Base URL}}/status",
+					"host": [
+						"{{Base URL}}"
+					],
+					"path": [
+						"status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all tools",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Response time is less than 200ms\", function () {",
+							"  pm.expect(pm.response.responseTime).to.be.below(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Category is a non-empty string\", function () {",
+							"  const responseData = pm.response.json();",
+							"  ",
+							"  responseData.forEach(function(tool) {",
+							"    pm.expect(tool.category).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Category should not be empty\");",
+							"  });",
+							"});",
+							"",
+							"",
+							"pm.test(\"Verify that 'inStock' is a boolean value\", function () {",
+							"  const responseData = pm.response.json();",
+							"  ",
+							"  pm.expect(responseData).to.be.an('array');",
+							"  responseData.forEach(function(item) {",
+							"    pm.expect(item.inStock).to.be.a('boolean');",
+							"  });",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Base URL}}/tools",
+					"host": [
+						"{{Base URL}}"
+					],
+					"path": [
+						"tools"
+					],
+					"query": [
+						{
+							"key": "category",
+							"value": "ladders",
+							"disabled": true
+						},
+						{
+							"key": "results",
+							"value": "as",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a single tool",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(pm.collectionVariables.get('PrpductID'));\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"const response = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Tool name\", function () {\r",
+							"    pm.expect(response.name).to.eql('PEX Clamp Tool');\r",
+							"    //console.log(response.name);\r",
+							"});\r",
+							"\r",
+							"console.log(response);\r",
+							"\r",
+							"pm.test(\"Tool price\", function () {\r",
+							"    pm.expect(response.price).to.eql(3.45);\r",
+							"    //console.log(response.name);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Tool is in stock\", function () {\r",
+							"    pm.expect(response.inStock).to.eql(true);\r",
+							"    //console.log(response.name);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Tool is in stock\", function () {\r",
+							"    pm.expect(response.inStock).to.be.true;\r",
+							"    //console.log(response.name);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response is an object\", function () {\r",
+							"    pm.expect(response).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Product Name\", function () {\r",
+							"    pm.expect(response.name).to.be.a('string');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Product Price\", function () {\r",
+							"    pm.expect(response.price).to.be.a('number');\r",
+							"    pm.expect(response.price).to.be.above(0);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Product Price\", function () {\r",
+							"    pm.expect(response.inStock).to.eql(true);\r",
+							"    pm.expect(response.inStock).to.be.true;\r",
+							"});\r",
+							"\r",
+							"//Cách 1\r",
+							"pm.test('Correct product was retrieved', () => {\r",
+							"    pm.expect(response.ID).to.eql(pm.collectionVariables.get('ProductID'));\r",
+							"});\r",
+							"\r",
+							"//Cách 2\r",
+							"pm.test('Correct product was retrieved', () => {\r",
+							"    const requestedProductID = pm.collectionVariables.get('ProductID');\r",
+							"    console.log(requestedProductID);\r",
+							"    pm.expect(response.ID).to.eql(requestedProductID);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Base URL}}/tools/:toolId?user-manual=true",
+					"host": [
+						"{{Base URL}}"
+					],
+					"path": [
+						"tools",
+						":toolId"
+					],
+					"query": [
+						{
+							"key": "user-manual",
+							"value": "true"
+						}
+					],
+					"variable": [
+						{
+							"key": "toolId",
+							"value": "4643"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register a new API client",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"clientName\": \"Funix\",\r\n   \"clientEmail\": \"Funix@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Base URL}}/api-clients",
+					"host": [
+						"{{Base URL}}"
+					],
+					"path": [
+						"api-clients"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a new order",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Access Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \"toolId\": 4643,\r\n \"customerName\": \"John Wick\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Base URL}}/orders",
+					"host": [
+						"{{Base URL}}"
+					],
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all orders",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Access Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Base URL}}/orders",
+					"host": [
+						"{{Base URL}}"
+					],
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a single order",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Access Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Base URL}}/orders/:orderId",
+					"host": [
+						"{{Base URL}}"
+					],
+					"path": [
+						"orders",
+						":orderId"
+					],
+					"variable": [
+						{
+							"key": "orderId",
+							"value": "iXqGXjmCQsHQj82APhdeC"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update an order",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Access Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"customerName\": \"John {{$randomLastName}}\",\r\n    \"quantity\": 1,\r\n    \"comment\": \"Go to this address\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Base URL}}/orders/:orderId",
+					"host": [
+						"{{Base URL}}"
+					],
+					"path": [
+						"orders",
+						":orderId"
+					],
+					"variable": [
+						{
+							"key": "orderId",
+							"value": "Tx7MB-Rm9FrUADNYSwbyb"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete an order",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Access Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{Base URL}}/orders/:orderId",
+					"host": [
+						"{{Base URL}}"
+					],
+					"path": [
+						"orders",
+						":orderId"
+					],
+					"variable": [
+						{
+							"key": "orderId",
+							"value": "IgRi1QzckIsks2a4DRp_u"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "Base URL",
+			"value": "https://simple-tool-rental-api.glitch.me"
+		},
+		{
+			"key": "Access Token",
+			"value": "Access",
+			"type": "string"
+		},
+		{
+			"key": "ProductID",
+			"value": ""
+		},
+		{
+			"value": "",
+			"type": "string",
+			"disabled": true
+		}
+	]
+}

@@ -1,0 +1,890 @@
+{
+	"info": {
+		"_postman_id": "a75144fc-a0af-4d48-ba96-b100e3916159",
+		"name": "Lab 7",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32434321"
+	},
+	"item": [
+		{
+			"name": "Đăng nhập thành công",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Kiểm tra trường hợp đăng nhập thành công\r",
+							"pm.test(\"Đăng nhập thành công, expect 200 OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"eve.holt@reqres.in\",\r\n    \"password\": \"cityslicka\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Lab 7}}/login",
+					"host": [
+						"{{Lab 7}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Đăng nhập không thành công (thiếu Email)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Kiểm tra trường hợp đăng nhập không thành công (Thiếu Email)\r",
+							"pm.test(\"Đăng nhập không thành công, expect 400 Bad request\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"\",\r\n    \"password\": \"cityslicka\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Lab 7}}/login",
+					"host": [
+						"{{Lab 7}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Đăng nhập không thành công (thiếu Password)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Kiểm tra trường hợp đăng nhập không thành công (Thiếu Password)\r",
+							"pm.test(\"Đăng nhập không thành công, expect 400 Bad request\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"eve.holt@reqres.in\",\r\n    \"password\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Lab 7}}/login",
+					"host": [
+						"{{Lab 7}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Đăng nhập không thành công (sai Email)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Kiểm tra trường hợp đăng nhập không thành công (sai Email)\r",
+							"pm.test(\"Đăng nhập thông tin thất bại do sai Email, Email không tồn tại, expect 400 bad request\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"{{$randomExampleEmail}}\",\r\n    \"password\": \"cityslicka\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Lab 7}}/login",
+					"host": [
+						"{{Lab 7}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Đăng nhập không thành công (sai Password)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Kiểm tra trường hợp đăng nhập không thành công (sai Password)\r",
+							"pm.test(\"Đăng nhập thông tin thất bại do sai Password, expect 400 bad request\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"eve.holt@reqres.in\",\r\n    \"password\": \"{{$randomPassword}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Lab 7}}/login",
+					"host": [
+						"{{Lab 7}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Đăng ký tài khoản thành công",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Đăng ký tài khoản thành công\r",
+							"pm.test(\"Đăng ký tài khoản thành công, expect 200 OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"const resultJson = pm.response.json();\r",
+							"\r",
+							"pm.test(\"ID là số\", function () {\r",
+							"     pm.expect(resultJson.id).to.be.a('number');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"token là string\", function () {\r",
+							"    pm.expect(resultJson.token).to.be.a('string');\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"tracey.ramos@reqres.in\",\r\n    \"password\": \"{{$randomPassword}}\"\r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Lab 7}}/register",
+					"host": [
+						"{{Lab 7}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Đăng ký tài khoản không thành công (thiếu Email)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Đăng ký tài khoản không thành công (thiếu Email)\r",
+							"pm.test(\"Đăng ký tài khoản không thành công, thiếu thông tin Email, expect 400 Bad Request\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"\",\r\n    \"password\": \"{{$randomPassword}}\"\r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Lab 7}}/register",
+					"host": [
+						"{{Lab 7}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Đăng ký tài khoản không thành công (thiếu Password)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Đăng ký tài khoản không thành công (thiếu Password)\r",
+							"pm.test(\"Đăng ký tài khoản không thành công, thiếu Password, expect 400 Bad Request\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"tracey.ramos@reqres.in\",\r\n    \"password\": \"\"\r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Lab 7}}/register",
+					"host": [
+						"{{Lab 7}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Đăng ký tài khoản không thành công (sai Email)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Đăng ký tài khoản không thành công (sai Email)\r",
+							"pm.test(\"Đăng ký tài khoản không thành công, sai Email, expect 400 Bad Request\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"tracey.ramos@reqres.i\",\r\n    \"password\": \"{{$randomPassword}}\"\r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Lab 7}}/register",
+					"host": [
+						"{{Lab 7}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Đăng ký tài khoản không thành công (Email không có trong danh sách)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Đăng ký tài khoản không thành công (Email không có trong danh sách)\r",
+							"pm.test(\"Đăng ký tài khoản không thành công, Email không có trong hệ thống, expect 400 Bad Request\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"{{$randomExampleEmail}}\",\r\n    \"password\": \"{{$randomPassword}}\"\r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Lab 7}}/register",
+					"host": [
+						"{{Lab 7}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Tạo mới User thành công",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Tạo mới User thành công\r",
+							"pm.test(\"Tạo mới User thành công, expect HTTP 201 Created\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{$randomFullName}}\",\r\n    \"email\": \"{{$randomExampleEmail}}\",\r\n    \"job\": \"\"\r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Lab 7}}/users",
+					"host": [
+						"{{Lab 7}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Tạo mới User không thành công (Name và Email để trống)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Tạo mới User không thành công (Name để trống)\r",
+							"pm.test(\"Tạo mới User không thành công (Name để trống), expect 400 bad request\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"\",\r\n    \"email\": \"\",\r\n    \"job\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Lab 7}}/users",
+					"host": [
+						"{{Lab 7}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Tạo mới User không thành công (Name để trống)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Tạo mới User không thành công (Name để trống)\r",
+							"pm.test(\"Tạo mới User không thành công (Name để trống), expect 400 bad request\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"\",\r\n    \"email\": \"george.bluth@reqres.in\",\r\n    \"job\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Lab 7}}/users",
+					"host": [
+						"{{Lab 7}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Tạo mới User không thành công (trùng Email)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Tạo mới User không thành công (trùng Emaiil)\r",
+							"pm.test(\"Tạo mới User không thành công (trùng Email), expect 400 bad request\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{$randomFullName}}\",\r\n    \"email\": \"george.bluth@reqres.in\",\r\n    \"job\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Lab 7}}/users",
+					"host": [
+						"{{Lab 7}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Tạo mới User không thành công (Email để trống)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Tạo mới User không thành công (trùng Emaiil)\r",
+							"pm.test(\"Tạo mới User không thành công (trùng Email), expect 400 bad request\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{$randomFullName}}\",\r\n    \"email\": \"\",\r\n    \"job\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Lab 7}}/users",
+					"host": [
+						"{{Lab 7}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cập nhật thông tin 1 user thành công",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Cập nhật thông tin 1 user thành công\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Blake Langosh\",\r\n    \"email\": \"Muhammad.Abshire32@example.org\",\r\n    \"job\": \"{{$randomJobTitle}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Lab 7}}/users/{userId}?userID=560",
+					"host": [
+						"{{Lab 7}}"
+					],
+					"path": [
+						"users",
+						"{userId}"
+					],
+					"query": [
+						{
+							"key": "userID",
+							"value": "560"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cập nhật thông tin 1 user không tồn tại (không nhập ID)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Cập nhật thông tin 1 user không tồn tại (không nhập ID), expect 404 not found\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Blake Langosh\",\r\n    \"email\": \"Muhammad.Abshire32@example.org\",\r\n    \"job\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Lab 7}}/users/{userId}?userID=",
+					"host": [
+						"{{Lab 7}}"
+					],
+					"path": [
+						"users",
+						"{userId}"
+					],
+					"query": [
+						{
+							"key": "userID",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cập nhật thông tin 1 user không tồn tại (nhập sai ID)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Cập nhật thông tin 1 user không tồn tại (nhập sai ID), expect 404 not found\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Blake Langosh\",\r\n    \"email\": \"Muhammad.Abshire32@example.org\",\r\n    \"job\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Lab 7}}/users/{userId}?userID=174",
+					"host": [
+						"{{Lab 7}}"
+					],
+					"path": [
+						"users",
+						"{userId}"
+					],
+					"query": [
+						{
+							"key": "userID",
+							"value": "174"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cập nhật thông tin 1 user không thành công (thiếu name)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Cập nhật thông tin 1 user không thành công (thiếu name), expect 400 bad request\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"\",\r\n    \"email\": \"Muhammad.Abshire32@example.org\",\r\n    \"job\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Lab 7}}/users/{userId}?userID=1",
+					"host": [
+						"{{Lab 7}}"
+					],
+					"path": [
+						"users",
+						"{userId}"
+					],
+					"query": [
+						{
+							"key": "userID",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cập nhật thông tin 1 user không thành công (Email đã tồn tại)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Cập nhật thông tin 1 user không thành công (Email đã tồn tại), expect 400 bad request\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{$randomFullName}}\",\r\n    \"email\": \"george.bluth@reqres.in\",\r\n    \"job\": \"{{$randomJobTitle}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Lab 7}}/users/{userId}?userID=560",
+					"host": [
+						"{{Lab 7}}"
+					],
+					"path": [
+						"users",
+						"{userId}"
+					],
+					"query": [
+						{
+							"key": "userID",
+							"value": "560"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "Lab 7",
+			"value": "https://reqres.in/api"
+		}
+	]
+}

@@ -1,0 +1,231 @@
+{
+	"info": {
+		"_postman_id": "5b9615fb-5b2c-4741-aeb2-f516477ef97e",
+		"name": "Lab 10 (Part 1)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32434321"
+	},
+	"item": [
+		{
+			"name": "Danh sách các giống chó",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(\"http code + pm.response.code\")\r",
+							"pm.test(\"TC1: Call API Get thành công với 200 OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Extract dữ liệu từ response sau khi nhận 200 ok\r",
+							"if (pm.response.code === 200) {\r",
+							"    //extract response ra Json\r",
+							"    const resultJson = pm.response.json();\r",
+							"\r",
+							"    pm.test(\"TC2: Call API get thành công với status success\", function () {\r",
+							"        pm.expect(resultJson.status).to.eql(\"success\");\r",
+							"    })\r",
+							"    pm.test(\"TC3: Call API get thành công, tồn tại giống chó Husky\", function () {\r",
+							"        pm.expect(resultJson.message.husky).to.not.null;\r",
+							"    })\r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseURL}}/breeds/list/all",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"breeds",
+						"list",
+						"all"
+					],
+					"query": [
+						{
+							"key": "message",
+							"value": "australian",
+							"disabled": true
+						},
+						{
+							"key": "status",
+							"value": "true",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API lấy random một bức ảnh chó husky",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(\"http code + pm.response.code\");\r",
+							"pm.test(\"TC1: Call API get thành công với 200 OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//extract dữ liệu từ respone sau khi nhận 200 ok\r",
+							"if (pm.response.code === 200) {\r",
+							"    //extract response ra json\r",
+							"    const resultJson = pm.response.json()\r",
+							"\r",
+							"    pm.test(\"TC2: Call API get thành công với status success\", function () {\r",
+							"        pm.expect(resultJson.status).to.eql(\"success\");\r",
+							"    });\r",
+							"    console.log(\"link ảnh\" + resultJson.message);\r",
+							"    pm.collectionVariables.set(\"dogimage\", resultJson.message);\r",
+							"};"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseURL}}/breed/:breedname/images/random",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"breed",
+						":breedname",
+						"images",
+						"random"
+					],
+					"variable": [
+						{
+							"key": "breedname",
+							"value": "{{breedname}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test thử trường hợp trả về hình ảnh cho Husky",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{dogimage}}",
+					"host": [
+						"{{dogimage}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request check trường hợp nhập vào breedname không tồn tại",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(\"http code + pm.response.code\");\r",
+							"pm.test(\"TC1: Call API get thành công với 200 OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"TC2: Call API get thất bại do nhập vào breedname không tồn tại\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"//extract dữ liệu từ respone sau khi nhận 404\r",
+							"if (pm.response.code === 404) {\r",
+							"    //extract response ra json\r",
+							"    const resultJson = pm.response.json()\r",
+							"    const expectMsg = \"Breed not found (master breed does not exist)\";\r",
+							"    pm.test(\"TC3: Call API thất bại message phải là: \" + expectMsg, function () {\r",
+							"        pm.expect(resultJson.message).to.eql(expectMsg);\r",
+							"    });\r",
+							"\r",
+							"    console.log(\"message\" + resultJson.message);\r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseURL}}/breed/:breedname/images/random",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"breed",
+						":breedname",
+						"images",
+						"random"
+					],
+					"variable": [
+						{
+							"key": "breedname",
+							"value": "{{fakebreed}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "breedname",
+			"value": "husky",
+			"type": "string"
+		},
+		{
+			"key": "dogimage",
+			"value": ""
+		},
+		{
+			"key": "fakebreed",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
